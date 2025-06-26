@@ -1,4 +1,4 @@
-package com.crisaltmann.flinkcountsales.config;
+package com.crisaltmann.flinkcountsales.salesproducer.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
