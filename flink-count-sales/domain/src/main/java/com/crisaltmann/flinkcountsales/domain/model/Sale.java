@@ -1,4 +1,4 @@
-package com.crisaltmann.flinkcountsales.salesproducer.model;
+package com.crisaltmann.flinkcountsales.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -17,4 +17,10 @@ public class Sale {
     private Integer salespersonId;
     
     private List<SaleItem> items;
+    
+    public double getTotalValue() {
+        return items.stream()
+            .mapToDouble(SaleItem::getSaleValue)
+            .sum();
+    }
 }

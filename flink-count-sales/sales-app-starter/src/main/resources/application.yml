@@ -1,9 +1,17 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${kafka.bootstrap-servers:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+# Configurações específicas da aplicação
+app:
+  kafka:
+    topic:
+      sales: ${kafka.topic.sales:sales}
+    bootstrap-servers: ${kafka.bootstrap-servers:localhost:9092}
+    group-id: ${kafka.group-id:flink-sales-aggregation}
 
 logging:
   level:

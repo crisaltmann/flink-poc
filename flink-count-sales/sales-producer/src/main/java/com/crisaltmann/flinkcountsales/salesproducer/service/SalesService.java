@@ -1,8 +1,9 @@
 package com.crisaltmann.flinkcountsales.salesproducer.service;
 
-import com.crisaltmann.flinkcountsales.salesproducer.model.Sale;
-import com.crisaltmann.flinkcountsales.salesproducer.model.SaleItem;
+import com.crisaltmann.flinkcountsales.domain.model.Sale;
+import com.crisaltmann.flinkcountsales.domain.model.SaleItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,14 @@ public class SalesService {
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
 
+    @Value("${app.kafka.topic.sales}")
+    private String salesTopic;
+
     private final Random random = new Random();
-    private static final String TOPIC_NAME = "sales";
 
     public void generateAndSendSale() {
         Sale sale = generateRandomSale();
-        kafkaTemplate.send(TOPIC_NAME, sale.getSaleId(), sale);
+        kafkaTemplate.send(salesTopic, sale.getSaleId(), sale);
         System.out.println("Sale sent: " + sale.getSaleId() + " - Salesperson: " + sale.getSalespersonId());
     }
 

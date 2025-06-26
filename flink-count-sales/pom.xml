@@ -20,7 +20,9 @@
     </properties>
     
     <modules>
+        <module>domain</module>
         <module>sales-producer</module>
+        <module>flink-aggregation</module>
         <module>sales-app-starter</module>
     </modules>
     

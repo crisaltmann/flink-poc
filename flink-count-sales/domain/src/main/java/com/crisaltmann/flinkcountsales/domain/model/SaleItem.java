@@ -1,4 +1,4 @@
-package com.crisaltmann.flinkcountsales.salesproducer.model;
+package com.crisaltmann.flinkcountsales.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -8,24 +8,36 @@ Este é um projeto Maven multi-módulo para explorar casos de uso do Apache Flin
 flink-count-sales/
 ├── pom.xml                 # POM pai do projeto
 ├── README.md              # Este arquivo
+├── domain/                # Módulo de modelos de domínio
+│   ├── src/
+│   └── README.md
 ├── sales-app-starter/     # Módulo inicializador da aplicação
 │   ├── src/
 │   ├── docker-compose.yml
 │   ├── run.sh
 │   └── application.yml
-└── sales-producer/        # Módulo produtor de eventos de vendas
+├── sales-producer/        # Módulo produtor de eventos de vendas
+│   ├── src/
+│   ├── run.sh
+│   └── README.md
+└── flink-aggregation/     # Módulo de agregação Flink
     ├── src/
-    ├── run.sh
     └── README.md
 ```
 
 ## 🧩 Módulos
+
+### 📦 domain
+Módulo de modelos de domínio compartilhados. Contém as classes `Sale` e `SaleItem` utilizadas por todos os outros módulos, garantindo consistência dos dados.
 
 ### 🚀 sales-app-starter
 Módulo responsável por inicializar a aplicação Spring Boot. Contém a classe principal e as configurações centrais do projeto. Este módulo orquestra todos os demais módulos.
 
 ### 📡 sales-producer
 Módulo de produção de eventos de vendas. Contém a lógica de negócio para gerar e enviar eventos automaticamente a cada 15 segundos para o Apache Kafka.
+
+### 📊 flink-aggregation
+Módulo de processamento em tempo real usando Apache Flink. Consome eventos de vendas do Kafka e calcula agregações como valor total de vendas em janelas de tempo.
 
 **Características dos eventos:**
 - **ID da Venda**: UUID único para cada venda
@@ -83,6 +95,6 @@ cd sales-app-starter && ./run.sh
 
 ## 🔮 Próximos Módulos
 
-- **sales-consumer**: Consumidor Flink para processamento de eventos
-- **sales-analytics**: Análises e métricas em tempo real
+- **sales-analytics**: Análises avançadas e métricas em tempo real
 - **sales-dashboard**: Dashboard para visualização dos dados
+- **sales-alerts**: Sistema de alertas baseado em thresholds
