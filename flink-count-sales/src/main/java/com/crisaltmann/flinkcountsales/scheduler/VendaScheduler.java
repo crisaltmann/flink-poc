@@ -1,6 +1,6 @@
-package com.example.flinkcountsales.scheduler;
+package com.crisaltmann.flinkcountsales.scheduler;
 
-import com.example.flinkcountsales.service.VendaService;
+import com.crisaltmann.flinkcountsales.service.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

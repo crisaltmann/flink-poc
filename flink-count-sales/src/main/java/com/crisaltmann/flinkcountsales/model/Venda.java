@@ -1,4 +1,4 @@
-package com.example.flinkcountsales.model;
+package com.crisaltmann.flinkcountsales.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

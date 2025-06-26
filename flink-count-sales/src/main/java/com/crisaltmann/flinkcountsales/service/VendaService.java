@@ -1,7 +1,7 @@
-package com.example.flinkcountsales.service;
+package com.crisaltmann.flinkcountsales.service;
 
-import com.example.flinkcountsales.model.ItemVenda;
-import com.example.flinkcountsales.model.Venda;
+import com.crisaltmann.flinkcountsales.model.ItemVenda;
+import com.crisaltmann.flinkcountsales.model.Venda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;

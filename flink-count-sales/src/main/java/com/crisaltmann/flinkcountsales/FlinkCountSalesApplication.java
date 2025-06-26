@@ -1,4 +1,4 @@
-package com.example.flinkcountsales;
+package com.crisaltmann.flinkcountsales;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
