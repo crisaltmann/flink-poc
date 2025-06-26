@@ -1,6 +1,6 @@
 # 🛍️ Flink Count Sales - Kafka Producer
 
-Este é um produtor Spring Boot que gera eventos de venda automaticamente a cada 30 segundos e os envia para um tópico do Apache Kafka.
+Este é um produtor Spring Boot que gera eventos de venda automaticamente a cada 15 segundos e os envia para um tópico do Apache Kafka.
 
 ## 📋 Descrição
 

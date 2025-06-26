@@ -11,7 +11,7 @@ public class VendaScheduler {
     @Autowired
     private VendaService vendaService;
 
-    @Scheduled(fixedRate = 30000) // 30 segundos
+    @Scheduled(fixedRate = 15000) // 15 segundos
     public void enviarVendaPeriodica() {
         vendaService.gerarEEnviarVenda();
     }

@@ -39,7 +39,7 @@ fi
 
 # Executar a aplicação Spring Boot
 echo "🛍️ Iniciando o producer de vendas..."
-echo "💡 A aplicação irá gerar eventos de venda a cada 30 segundos"
+echo "💡 A aplicação irá gerar eventos de venda a cada 15 segundos"
 echo "🔍 Pressione Ctrl+C para parar a aplicação"
 echo ""
 
