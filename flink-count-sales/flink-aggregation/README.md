@@ -58,20 +58,25 @@ O módulo `flink-aggregation` é responsável por:
 
 ## 🚀 Execução
 
-### Como Job Standalone
+### Pré-requisitos
+1. **Flink instalado** e cluster rodando em `localhost:8081`
+2. **Kafka rodando** com tópico `sales`
+3. **Producer de vendas** executando
+
+### Executar Job
+```bash
+# Script automatizado
+./run-flink-job.sh
+```
+
+### Manual
 ```bash
 # Compilar o projeto
 mvn clean package
 
-# Executar o job Flink
-java -cp target/flink-aggregation-0.0.1-SNAPSHOT.jar \
-  com.crisaltmann.flinkcountsales.aggregation.job.SalesAggregationJob
-```
-
-### Via Flink Cluster
-```bash
 # Submeter para cluster Flink
-flink run target/flink-aggregation-0.0.1-SNAPSHOT.jar
+flink run -c com.crisaltmann.flinkcountsales.aggregation.job.SalesAggregationJob \
+  target/flink-aggregation-0.0.1-SNAPSHOT.jar
 ```
 
 ## 📊 Output
