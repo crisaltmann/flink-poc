@@ -1,6 +1,0 @@
-com/example/flinkcountsales/model/Venda.class
-com/example/flinkcountsales/model/ItemVenda.class
-com/example/flinkcountsales/config/KafkaProducerConfig.class
-com/example/flinkcountsales/scheduler/VendaScheduler.class
-com/example/flinkcountsales/FlinkCountSalesApplication.class
-com/example/flinkcountsales/service/VendaService.class

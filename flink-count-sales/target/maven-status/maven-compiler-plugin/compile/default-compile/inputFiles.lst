@@ -1,6 +1,0 @@
-/Users/caltmann/Projects/claude-test/flink/flink-poc/flink-count-sales/src/main/java/com/example/flinkcountsales/config/KafkaProducerConfig.java
-/Users/caltmann/Projects/claude-test/flink/flink-poc/flink-count-sales/src/main/java/com/example/flinkcountsales/model/Venda.java
-/Users/caltmann/Projects/claude-test/flink/flink-poc/flink-count-sales/src/main/java/com/example/flinkcountsales/scheduler/VendaScheduler.java
-/Users/caltmann/Projects/claude-test/flink/flink-poc/flink-count-sales/src/main/java/com/example/flinkcountsales/FlinkCountSalesApplication.java
-/Users/caltmann/Projects/claude-test/flink/flink-poc/flink-count-sales/src/main/java/com/example/flinkcountsales/model/ItemVenda.java
-/Users/caltmann/Projects/claude-test/flink/flink-poc/flink-count-sales/src/main/java/com/example/flinkcountsales/service/VendaService.java
