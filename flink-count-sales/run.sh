@@ -37,6 +37,10 @@ if ! command -v mvn &> /dev/null; then
     exit 1
 fi
 
+# Compilar o projeto completo
+echo "🔨 Compilando o projeto..."
+mvn clean install -q
+
 # Executar a aplicação Spring Boot
 echo "🛍️ Iniciando o producer de vendas..."
 echo "💡 A aplicação irá gerar eventos de venda a cada 15 segundos"
