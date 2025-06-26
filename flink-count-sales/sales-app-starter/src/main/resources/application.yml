@@ -8,4 +8,4 @@ spring:
 logging:
   level:
     org.springframework.kafka: INFO
-    com.crisaltmann.flinkcountsales.salesproducer: INFO
+    com.crisaltmann.flinkcountsales: INFO

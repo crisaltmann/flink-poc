@@ -21,6 +21,7 @@
     
     <modules>
         <module>sales-producer</module>
+        <module>sales-app-starter</module>
     </modules>
     
     <dependencyManagement>

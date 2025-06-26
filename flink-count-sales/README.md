@@ -8,17 +8,24 @@ Este é um projeto Maven multi-módulo para explorar casos de uso do Apache Flin
 flink-count-sales/
 ├── pom.xml                 # POM pai do projeto
 ├── README.md              # Este arquivo
+├── sales-app-starter/     # Módulo inicializador da aplicação
+│   ├── src/
+│   ├── docker-compose.yml
+│   ├── run.sh
+│   └── application.yml
 └── sales-producer/        # Módulo produtor de eventos de vendas
     ├── src/
-    ├── docker-compose.yml
     ├── run.sh
     └── README.md
 ```
 
 ## 🧩 Módulos
 
+### 🚀 sales-app-starter
+Módulo responsável por inicializar a aplicação Spring Boot. Contém a classe principal e as configurações centrais do projeto. Este módulo orquestra todos os demais módulos.
+
 ### 📡 sales-producer
-Produtor Spring Boot que gera eventos de vendas automaticamente a cada 15 segundos e os envia para um tópico do Apache Kafka.
+Módulo de produção de eventos de vendas. Contém a lógica de negócio para gerar e enviar eventos automaticamente a cada 15 segundos para o Apache Kafka.
 
 **Características dos eventos:**
 - **ID da Venda**: UUID único para cada venda
@@ -44,8 +51,14 @@ Produtor Spring Boot que gera eventos de vendas automaticamente a cada 15 segund
 mvn clean install
 ```
 
-### Executar Módulo Específico
-Consulte o README de cada módulo para instruções específicas de execução.
+### Executar Aplicação
+```bash
+# Na raiz do projeto
+./run.sh
+
+# Ou diretamente no módulo app-starter
+cd sales-app-starter && ./run.sh
+```
 
 ## 📝 Exemplo de Evento JSON
 

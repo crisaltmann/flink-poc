@@ -1,6 +1,6 @@
-# 🛍️ Sales Producer - Produtor de Eventos de Vendas
+# 🛍️ Sales Producer - Módulo Produtor de Eventos de Vendas
 
-Este é um produtor Spring Boot que gera eventos de vendas automaticamente a cada 15 segundos e os envia para um tópico do Apache Kafka.
+Este módulo contém a lógica de geração de eventos de vendas que são enviados para o Apache Kafka a cada 15 segundos.
 
 ## 📋 Descrição
 
@@ -21,36 +21,25 @@ A aplicação simula um sistema de vendas gerando eventos com as seguintes carac
 - 🔧 **Lombok**
 - 📦 **Maven**
 
-## 🚀 Execução Rápida
+## 🏗️ Estrutura
 
-### Script Automatizado
+- **Models**: `Sale` e `SaleItem` - representam os eventos de venda
+- **Service**: `SalesService` - lógica de geração e envio dos eventos
+- **Scheduler**: `SalesScheduler` - execução periódica a cada 15 segundos
+- **Config**: `KafkaProducerConfig` - configuração do produtor Kafka
+
+## 🚀 Execução
+
+**Nota**: Este módulo não pode ser executado independentemente. Deve ser iniciado através do módulo `sales-app-starter`.
+
+### Executar via App Starter
 ```bash
+# Na raiz do projeto
 ./run.sh
+
+# Ou diretamente
+cd ../sales-app-starter && ./run.sh
 ```
-
-### Execução Manual
-
-#### Com Docker
-1. **Subir o Kafka**:
-   ```bash
-   docker-compose up -d
-   ```
-
-2. **Executar a aplicação Spring Boot**:
-   ```bash
-   mvn spring-boot:run
-   ```
-
-#### Com Podman
-1. **Subir o Kafka**:
-   ```bash
-   podman-compose up -d
-   ```
-
-2. **Executar a aplicação Spring Boot**:
-   ```bash
-   mvn spring-boot:run
-   ```
 
 ## 📊 Monitoramento
 
@@ -61,9 +50,7 @@ Sale sent: 123e4567-e89b-12d3-a456-426614174000 - Salesperson: 3
 
 ## 🔧 Configuração
 
-O tópico Kafka utilizado é `sales` e a configuração padrão aponta para `localhost:9092`.
-
-Para alterar as configurações, edite o arquivo `src/main/resources/application.yml`.
+O tópico Kafka utilizado é `sales`. As configurações ficam no módulo `sales-app-starter` no arquivo `application.yml`.
 
 ## 📝 Exemplo de Evento JSON
 
@@ -86,14 +73,6 @@ Para alterar as configurações, edite o arquivo `src/main/resources/application
 }
 ```
 
-## 🛑 Parar a Aplicação
+## 🔗 Dependências
 
-**Com Docker:**
-```bash
-docker-compose down
-```
-
-**Com Podman:**
-```bash
-podman-compose down
-```
+Este módulo é uma dependência do `sales-app-starter` e não possui configurações próprias de execução.

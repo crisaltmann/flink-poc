@@ -1,15 +1,15 @@
-package com.crisaltmann.flinkcountsales.salesproducer;
+package com.crisaltmann.flinkcountsales.appstarter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.crisaltmann.flinkcountsales")
 @EnableScheduling
-public class SalesProducerApplication {
+public class SalesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SalesProducerApplication.class, args);
+        SpringApplication.run(SalesApplication.class, args);
     }
 
 }

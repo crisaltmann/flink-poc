@@ -43,4 +43,4 @@ echo "💡 A aplicação irá gerar eventos de venda a cada 15 segundos"
 echo "🔍 Pressione Ctrl+C para parar a aplicação"
 echo ""
 
-cd sales-app-starter && mvn spring-boot:run
+mvn spring-boot:run
