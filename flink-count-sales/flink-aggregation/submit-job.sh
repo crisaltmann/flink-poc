@@ -1,20 +1,20 @@
 #!/bin/bash
 
-echo "🔥 Aguardando Flink JobManager ficar disponível..."
+echo "Aguardando Flink JobManager ficar disponivel..."
 
 # Aguardar Flink estar pronto
 until curl -s http://jobmanager:8081/overview > /dev/null 2>&1; do
-    echo "⏳ Aguardando Flink JobManager... (tentando http://jobmanager:8081/overview)"
+    echo "Aguardando Flink JobManager... (tentando http://jobmanager:8081/overview)"
     sleep 5
 done
 
-echo "✅ Flink JobManager disponível!"
+echo "Flink JobManager disponivel!"
 
 # Aguardar TaskManager estar pronto
-echo "⏳ Aguardando TaskManager..."
+echo "Aguardando TaskManager..."
 sleep 15
 
-echo "📁 Fazendo upload do JAR..."
+echo "Fazendo upload do JAR..."
 
 # Upload do JAR
 UPLOAD_RESPONSE=$(curl -s -X POST \
@@ -27,14 +27,14 @@ echo "Upload response: $UPLOAD_RESPONSE"
 JAR_ID=$(echo $UPLOAD_RESPONSE | grep -o '"filename":"[^"]*"' | cut -d'"' -f4 | sed 's|.*/||')
 
 if [ -z "$JAR_ID" ]; then
-    echo "❌ Erro no upload do JAR"
+    echo "Erro no upload do JAR"
     echo "Response: $UPLOAD_RESPONSE"
     exit 1
 fi
 
-echo "✅ JAR uploaded: $JAR_ID"
+echo "JAR uploaded: $JAR_ID"
 
-echo "🚀 Submetendo job de agregação de vendas..."
+echo "Submetendo job de agregacao de vendas..."
 
 # Submeter o job
 RUN_RESPONSE=$(curl -s -X POST \
@@ -45,11 +45,11 @@ RUN_RESPONSE=$(curl -s -X POST \
     }' \
     "http://jobmanager:8081/v1/jars/$JAR_ID/run")
 
-echo "✅ Job submetido!"
+echo "Job submetido!"
 echo "Response: $RUN_RESPONSE"
 
-echo "🎯 Job rodando no Flink!"
-echo "📊 Acesse http://localhost:8081 para visualizar"
+echo "Job rodando no Flink!"
+echo "Acesse http://localhost:8081 para visualizar"
 
 # Manter container rodando para logs
 tail -f /dev/null

@@ -12,12 +12,15 @@ public class SalesAggregationProcessor implements AggregateFunction<Sale, SalesA
 
     @Override
     public SalesAggregation createAccumulator() {
+        System.out.println("Criando novo acumulador");
         return new SalesAggregation(0L, 0.0, System.currentTimeMillis());
     }
 
     @Override
     public SalesAggregation add(Sale sale, SalesAggregation accumulator) {
+        System.out.println("Adicionando venda ao acumulador. Count atual: " + accumulator.getTotalSalesCount() + ", Valor: " + sale.getTotalValue());
         accumulator.addSale(sale);
+        System.out.println("Após adicionar. Count: " + accumulator.getTotalSalesCount() + ", Total: " + accumulator.getTotalSalesValue());
         return accumulator;
     }
 

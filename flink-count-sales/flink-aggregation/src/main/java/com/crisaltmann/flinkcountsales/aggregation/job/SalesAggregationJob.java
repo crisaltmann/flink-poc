@@ -8,6 +8,8 @@ import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows;
@@ -70,11 +72,28 @@ public class SalesAggregationJob {
                 .map(SalesAggregationJob::parseSale)
                 .filter(sale -> sale != null)
                 .keyBy(sale -> "global") // Chave única para agregação global
-                .window(TumblingProcessingTimeWindows.of(Time.seconds(30))) // Janela de 30 segundos
+                .window(TumblingProcessingTimeWindows.of(Time.seconds(30))) // Janela de 60 segundos
                 .aggregate(new SalesAggregationProcessor());
         
-        // Exibir resultados
-        aggregatedSales.print();
+        // Criar sink para Kafka para salvar resultados
+        KafkaSink<String> kafkaSink = KafkaSink.<String>builder()
+                .setBootstrapServers(KAFKA_SERVERS)
+                .setRecordSerializer(KafkaRecordSerializationSchema.builder()
+                        .setTopic("sales-aggregated")
+                        .setValueSerializationSchema(new SimpleStringSchema())
+                        .build())
+                .build();
+
+        // Converter para JSON e enviar para Kafka
+        DataStream<String> jsonResults = aggregatedSales
+                .map(agg -> {
+                    System.out.println("Agregacao calculada: " + agg);
+                    return objectMapper.writeValueAsString(agg);
+                });
+
+        // Salvar no Kafka e também imprimir
+        jsonResults.sinkTo(kafkaSink);
+        jsonResults.print();
         
         // Executar job
         env.execute("Sales Aggregation Job");

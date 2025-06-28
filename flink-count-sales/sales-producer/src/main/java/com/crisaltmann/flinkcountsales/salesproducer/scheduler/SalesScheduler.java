@@ -11,7 +11,7 @@ public class SalesScheduler {
     @Autowired
     private SalesService salesService;
 
-    @Scheduled(fixedRate = 15000) // 15 seconds
+    @Scheduled(fixedRate = 5000) // 15 seconds
     public void sendPeriodicSale() {
         salesService.generateAndSendSale();
     }
