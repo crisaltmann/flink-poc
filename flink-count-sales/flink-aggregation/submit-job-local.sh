@@ -3,23 +3,23 @@
 echo "🔥 Aguardando Flink JobManager ficar disponível..."
 
 # Aguardar Flink estar pronto
-until curl -s http://jobmanager:8081/overview > /dev/null 2>&1; do
-    echo "⏳ Aguardando Flink JobManager... (tentando http://jobmanager:8081/overview)"
-    sleep 5
+until curl -s http://localhost:8081/overview > /dev/null 2>&1; do
+    echo "⏳ Aguardando Flink JobManager... (tentando http://localhost:8081/overview)"
+    sleep 1
 done
 
 echo "✅ Flink JobManager disponível!"
 
 # Aguardar TaskManager estar pronto
 echo "⏳ Aguardando TaskManager..."
-sleep 15
+sleep 1
 
 echo "📁 Fazendo upload do JAR..."
 
 # Upload do JAR
 UPLOAD_RESPONSE=$(curl -s -X POST \
     -F "jarfile=@target/flink-aggregation-0.0.1-SNAPSHOT.jar" \
-    http://jobmanager:8081/v1/jars/upload)
+    http://localhost:8081/v1/jars/upload)
 
 echo "Upload response: $UPLOAD_RESPONSE"
 
@@ -43,13 +43,18 @@ RUN_RESPONSE=$(curl -s -X POST \
         "entryClass": "com.crisaltmann.flinkcountsales.aggregation.job.SalesAggregationJob",
         "programArgs": "--kafka.bootstrap-servers kafka:29092 --kafka.topic.sales sales --kafka.group-id flink-sales-aggregation"
     }' \
-    "http://jobmanager:8081/v1/jars/$JAR_ID/run")
+    "http://localhost:8081/v1/jars/$JAR_ID/run")
+
+echo "Response: $RUN_RESPONSE"
+
+# Verificar se houve erro na submissão
+if echo "$RUN_RESPONSE" | grep -q '"errors"'; then
+    echo "❌ Erro na submissão do job:"
+    echo "$RUN_RESPONSE"
+    exit 1
+fi
 
 echo "✅ Job submetido!"
-echo "Response: $RUN_RESPONSE"
 
 echo "🎯 Job rodando no Flink!"
 echo "📊 Acesse http://localhost:8081 para visualizar"
-
-# Manter container rodando para logs
-tail -f /dev/null

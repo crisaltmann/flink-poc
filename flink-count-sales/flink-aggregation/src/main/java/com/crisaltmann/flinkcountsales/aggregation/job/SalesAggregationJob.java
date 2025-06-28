@@ -24,13 +24,32 @@ import org.apache.flink.streaming.api.windowing.time.Time;
  */
 public class SalesAggregationJob {
     
-    // Configurações que podem ser passadas como argumentos ou variáveis de ambiente
-    private static final String KAFKA_SERVERS = System.getProperty("kafka.bootstrap-servers", "localhost:9092");
-    private static final String KAFKA_TOPIC = System.getProperty("kafka.topic.sales", "sales");
-    private static final String KAFKA_GROUP_ID = System.getProperty("kafka.group-id", "flink-sales-aggregation");
+    // Configurações padrão
+    private static String KAFKA_SERVERS = "localhost:9092";
+    private static String KAFKA_TOPIC = "sales";
+    private static String KAFKA_GROUP_ID = "flink-sales-aggregation";
     private static final ObjectMapper objectMapper = new ObjectMapper();
     
     public static void main(String[] args) throws Exception {
+        // Processar argumentos da linha de comando
+        for (int i = 0; i < args.length; i++) {
+            if ("--kafka.bootstrap-servers".equals(args[i]) && i + 1 < args.length) {
+                KAFKA_SERVERS = args[i + 1];
+                i++;
+            } else if ("--kafka.topic.sales".equals(args[i]) && i + 1 < args.length) {
+                KAFKA_TOPIC = args[i + 1];
+                i++;
+            } else if ("--kafka.group-id".equals(args[i]) && i + 1 < args.length) {
+                KAFKA_GROUP_ID = args[i + 1];
+                i++;
+            }
+        }
+        
+        System.out.println("Configurações Kafka:");
+        System.out.println("Bootstrap Servers: " + KAFKA_SERVERS);
+        System.out.println("Topic: " + KAFKA_TOPIC);
+        System.out.println("Group ID: " + KAFKA_GROUP_ID);
+        
         // Configurar ambiente de execução do Flink
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         
@@ -39,7 +58,7 @@ public class SalesAggregationJob {
                 .setBootstrapServers(KAFKA_SERVERS)
                 .setTopics(KAFKA_TOPIC)
                 .setGroupId(KAFKA_GROUP_ID)
-                .setStartingOffsets(OffsetsInitializer.latest())
+                .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new SimpleStringSchema())
                 .build();
         

@@ -23,6 +23,10 @@ if ! $CONTAINER_CMD info > /dev/null 2>&1; then
     exit 1
 fi
 
+# Subir o Kafka
+echo "📡 Subindo o Kafka com $COMPOSE_CMD..."
+$COMPOSE_CMD up -d
+
 # Aguardar o Kafka estar pronto
 echo "⏳ Aguardando o Kafka ficar disponível..."
 sleep 15
