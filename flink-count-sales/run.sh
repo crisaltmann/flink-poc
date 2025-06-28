@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "🚀 Iniciando Flink Count Sales Producer"
-echo "========================================"
+echo "🚀 Iniciando Flink Count Sales - Ambiente Completo"
+echo "=================================================="
 
 # Verificar se o Podman está disponível
 if command -v podman &> /dev/null; then
@@ -23,30 +23,12 @@ if ! $CONTAINER_CMD info > /dev/null 2>&1; then
     exit 1
 fi
 
-# Subir o Kafka
-echo "📡 Subindo o Kafka com $COMPOSE_CMD..."
-$COMPOSE_CMD up -d
-
-# Aguardar o Kafka estar pronto
-echo "⏳ Aguardando o Kafka ficar disponível..."
-sleep 15
-
-# Verificar se o Maven está instalado
-if ! command -v mvn &> /dev/null; then
-    echo "❌ Maven não encontrado. Por favor, instale o Maven."
-    exit 1
-fi
-
-# Compilar o projeto completo
-echo "🔨 Compilando o projeto..."
-mvn clean install -q
-
 # Função para cleanup ao sair
 cleanup() {
     echo ""
-    echo "🛑 Parando a aplicação e containers..."
+    echo "🛑 Parando todos os containers..."
     
-    # Parar containers Docker/Podman
+    cd sales-app-starter
     if [ "$COMPOSE_CMD" = "docker-compose" ]; then
         echo "🐳 Parando containers Docker..."
         docker-compose down
@@ -62,10 +44,24 @@ cleanup() {
 # Capturar sinais de interrupção
 trap cleanup SIGINT SIGTERM
 
-# Executar a aplicação Spring Boot
-echo "🛍️ Iniciando o producer de vendas..."
-echo "💡 A aplicação irá gerar eventos de venda a cada 15 segundos"
-echo "🔍 Pressione Ctrl+C para parar a aplicação e containers"
+# Subir todos os serviços
+echo "📡 Iniciando todos os serviços..."
+echo "   - Kafka + Zookeeper"
+echo "   - Flink (JobManager + TaskManager)"
+echo "   - Sales Producer (Spring Boot)"
+echo "   - Flink Job Submitter"
+echo "   - Kafka UI"
 echo ""
 
-cd sales-app-starter && mvn spring-boot:run
+cd sales-app-starter
+$COMPOSE_CMD up --build
+
+echo "🎯 Serviços disponíveis:"
+echo "   📊 Flink Dashboard: http://localhost:8081"
+echo "   📡 Kafka UI: http://localhost:8080"
+echo "   🛍️ Producer: logs nos containers"
+echo ""
+echo "🔍 Pressione Ctrl+C para parar todos os containers"
+
+# Aguardar até ser interrompido
+wait

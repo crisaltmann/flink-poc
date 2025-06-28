@@ -1,5 +1,6 @@
 package com.crisaltmann.flinkcountsales.aggregation.model;
 
+import com.crisaltmann.flinkcountsales.domain.model.Sale;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -33,38 +33,61 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
 
   # Flink JobManager
-  jobmanager:
-    image: flink:1.18-scala_2.12-java11
-    hostname: jobmanager
-    container_name: jobmanager
+  flink-jobmanager:
+    image: flink:1.18-scala_2.12-java17
+    hostname: flink-jobmanager
+    container_name: flink-jobmanager
     ports:
       - "8081:8081"
     command: jobmanager
     environment:
       - |
         FLINK_PROPERTIES=
-        jobmanager.rpc.address: jobmanager
+        jobmanager.rpc.address: flink-jobmanager
         parallelism.default: 2
-    volumes:
-      - ./flink-jobs:/opt/flink/usrlib
 
   # Flink TaskManager
-  taskmanager:
-    image: flink:1.18-scala_2.12-java11
-    hostname: taskmanager
-    container_name: taskmanager
+  flink-taskmanager:
+    image: flink:1.18-scala_2.12-java17
+    hostname: flink-taskmanager
+    container_name: flink-taskmanager
     depends_on:
-      - jobmanager
+      - flink-jobmanager
     command: taskmanager
     scale: 1
     environment:
       - |
         FLINK_PROPERTIES=
-        jobmanager.rpc.address: jobmanager
+        jobmanager.rpc.address: flink-jobmanager
         taskmanager.numberOfTaskSlots: 2
         parallelism.default: 2
-    volumes:
-      - ./flink-jobs:/opt/flink/usrlib
+
+  # Sales Producer Application
+  sales-producer:
+    build:
+      context: ..
+      dockerfile: sales-app-starter/Dockerfile
+    container_name: sales-producer
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_TOPIC_SALES=sales
+    networks:
+      - default
+
+  # Flink Aggregation Job
+  flink-job-submitter:
+    build:
+      context: ..
+      dockerfile: flink-aggregation/Dockerfile
+    container_name: flink-job-submitter
+    depends_on:
+      - flink-jobmanager
+      - flink-taskmanager
+      - kafka
+    networks:
+      - default
 
   # Kafka UI para visualização
   kafka-ui:
